@@ -1,0 +1,33 @@
+{
+  "name": "humanoid-leg-joint-jig",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "34-second Remotion anatomy jig of a quasi-direct-drive humanoid knee: frameless outrunner, 6:1 planetary, and torque flexure.",
+  "scripts": {
+    "dev": "vite",
+    "check": "tsx scripts/check.ts",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "still": "remotion still src/index.ts LegJointJig",
+    "stills": "tsx scripts/stills.ts",
+    "studio": "remotion studio src/index.ts"
+  },
+  "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.8",
+    "@remotion/cli": "^4.0.537",
+    "@remotion/player": "^4.0.537",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "remotion": "^4.0.537"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.10"
+  }
+}
