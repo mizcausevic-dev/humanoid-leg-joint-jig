@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Knee actuator jig · shot sheet</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--font);
+        line-height: 1.45;
+      }
+      header, main { width: min(1080px, calc(100% - 32px)); margin: 0 auto; }
+      header { padding: 28px 0 8px; display: flex; justify-content: space-between; gap: 16px; align-items: flex-end; }
+      h1 { font-size: clamp(32px, 5vw, 52px); line-height: 0.95; margin: 0; letter-spacing: -0.04em; }
+      h2 { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; margin: 32px 0 12px; }
+      p { margin: 0 0 10px; }
+      a { color: var(--accent); }
+      .kicker { font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+      .controls { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+      button {
+        background: var(--panel);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 6px 10px;
+        font: inherit;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+      button.on { outline: 2px solid var(--accent); }
+      .grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; }
+      .card, .shot, .point {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 16px;
+      }
+      .shots { display: grid; gap: 8px; }
+      .shot { display: grid; grid-template-columns: 72px 1fr auto; gap: 12px; align-items: center; }
+      .shot b { font-size: 16px; }
+      .shot span, .meta { color: var(--muted); font-family: ui-monospace, monospace; font-size: 12px; }
+      .bar { height: 14px; display: flex; border-radius: 99px; overflow: hidden; border: 1px solid var(--line); }
+      .bar i { display: block; height: 100%; }
+      .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+      .swatch { width: 92px; }
+      .swatch i { display: block; height: 36px; border-radius: 6px; border: 1px solid var(--line); }
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      td, th { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+      .points { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .point strong { display: block; margin-bottom: 4px; }
+      footer { width: min(1080px, calc(100% - 32px)); margin: 28px auto 48px; color: var(--muted); font-size: 13px; }
+      @media (max-width: 800px) {
+        .grid, .points, header { grid-template-columns: 1fr; display: grid; }
+        .shot { grid-template-columns: 1fr; }
+      }
+      [data-theme="bento"][data-mode="dark"] { --bg:#121417; --panel:#1c2128; --ink:#f4efe6; --muted:#a3aab3; --accent:#e7ff6a; --line:#2d343d; --radius:18px; --shadow:none; --font:ui-sans-serif,system-ui,sans-serif; }
+      [data-theme="bento"][data-mode="light"] { --bg:#f4f1ea; --panel:#fff; --ink:#17191c; --muted:#5e6670; --accent:#111; --line:#e4ddd2; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.04); --font:ui-sans-serif,system-ui,sans-serif; }
+      [data-theme="cosmic"][data-mode="dark"] { --bg:#0b0c10; --panel:#171a21; --ink:#c5c6c7; --muted:#8d97a3; --accent:#00f5d4; --line:#383e4a; --radius:8px; --shadow:none; --font:ui-sans-serif,system-ui,sans-serif; }
+      [data-theme="cosmic"][data-mode="light"] { --bg:#eef7f6; --panel:#fff; --ink:#10211f; --muted:#4d6663; --accent:#0b8f86; --line:#c9e4e1; --radius:8px; --shadow:none; --font:ui-sans-serif,system-ui,sans-serif; }
+      [data-theme="swiss"][data-mode="dark"] { --bg:#111; --panel:#1a1a1a; --ink:#f2f2f2; --muted:#9a9a9a; --accent:#ff2a2a; --line:#333; --radius:0; --shadow:none; --font:Helvetica,Arial,sans-serif; }
+      [data-theme="swiss"][data-mode="light"] { --bg:#f7f7f5; --panel:#fff; --ink:#111; --muted:#555; --accent:#e10600; --line:#111; --radius:0; --shadow:none; --font:Helvetica,Arial,sans-serif; }
+      [data-theme="aqua"][data-mode="dark"] { --bg:#071820; --panel:#0e2c3a; --ink:#dff6ff; --muted:#8ec5d6; --accent:#3ec6ff; --line:#1c5670; --radius:22px; --shadow:inset 0 1px 0 rgba(255,255,255,.15); --font:Trebuchet MS,Verdana,sans-serif; }
+      [data-theme="aqua"][data-mode="light"] { --bg:#d7f3ff; --panel:#f4fcff; --ink:#083044; --muted:#3e6d84; --accent:#0077b6; --line:#9ad4ef; --radius:22px; --shadow:0 8px 0 #b7e4f8; --font:Trebuchet MS,Verdana,sans-serif; }
+      [data-theme="brutal"][data-mode="dark"] { --bg:#140018; --panel:#2a0036; --ink:#fff4fb; --muted:#e7b6ff; --accent:#ff4fd8; --line:#ffde59; --radius:0; --shadow:6px 6px 0 #ffde59; --font:Impact,Haettenschweiler,sans-serif; }
+      [data-theme="brutal"][data-mode="light"] { --bg:#fff36b; --panel:#fff; --ink:#111; --muted:#333; --accent:#ff2bd6; --line:#111; --radius:0; --shadow:6px 6px 0 #111; --font:Impact,Haettenschweiler,sans-serif; }
+      [data-theme="steel"][data-mode="dark"] { --bg:#1a1d18; --panel:#262b24; --ink:#d5d8cc; --muted:#8d937f; --accent:#c6f25d; --line:#3d4336; --radius:2px; --shadow:none; --font:"Segoe UI",sans-serif; }
+      [data-theme="steel"][data-mode="light"] { --bg:#e4e6df; --panel:#f3f4ef; --ink:#1c2118; --muted:#5c6454; --accent:#3d4f12; --line:#c5c9bc; --radius:2px; --shadow:none; --font:"Segoe UI",sans-serif; }
+      [data-theme="parchment"][data-mode="dark"] { --bg:#241c14; --panel:#31261c; --ink:#f0e2cc; --muted:#b5a38a; --accent:#e2b56a; --line:#5a4632; --radius:4px; --shadow:none; --font:Palatino,Georgia,serif; }
+      [data-theme="parchment"][data-mode="light"] { --bg:#f3e6d0; --panel:#fff8ec; --ink:#2a2118; --muted:#6d5a45; --accent:#8a4b08; --line:#e2d0b4; --radius:4px; --shadow:none; --font:Palatino,Georgia,serif; }
+    </style>
+  </head>
+  <body data-theme="cosmic" data-mode="dark">
+    <header>
+      <div>
+        <p class="kicker">Kinetic Gain · Plate index</p>
+        <h1>Knee actuator anatomy jig</h1>
+      </div>
+      <div class="controls" id="controls"></div>
+    </header>
+    <main>
+      <p>34.00 seconds. 1,020 frames. 30 fps. Five hard cuts. The film is a drawing of one quasi-direct-drive knee, not a recording of a manufactured unit.</p>
+      <p><a href="./index.html">Open the player</a></p>
+
+      <h2>Timeline</h2>
+      <div class="bar" aria-hidden="true">
+        <i style="width:14.8%;background:#c5c6c7"></i>
+        <i style="width:14.7%;background:#00f5d4"></i>
+        <i style="width:20.6%;background:#ff6b35"></i>
+        <i style="width:23.5%;background:#7928ca"></i>
+        <i style="width:26.4%;background:#8d97a3"></i>
+      </div>
+      <div class="shots" style="margin-top:12px">
+        <article class="shot"><span>01 · 0–150</span><div><b>Cover release</b><div class="meta">0.00–5.00s · carbon-fiber cover translates on the pivot</div></div><span>151f</span></article>
+        <article class="shot"><span>02 · 151–300</span><div><b>Frameless outrunner</b><div class="meta">5.03–10.00s · 20-pole rotor, 18-slot 3-phase stator</div></div><span>150f</span></article>
+        <article class="shot"><span>03 · 301–510</span><div><b>6:1 planetary</b><div class="meta">10.03–17.00s · 18 / 36 / 90 teeth, three needle planets</div></div><span>210f</span></article>
+        <article class="shot"><span>04 · 511–750</span><div><b>Torque flexure</b><div class="meta">17.03–25.00s · spoke sag, gauges, schematic 1 kHz stream</div></div><span>240f</span></article>
+        <article class="shot"><span>05 · 751–1019</span><div><b>Heel strike</b><div class="meta">25.03–33.97s · hip, knee, ankle on one illustrated impact</div></div><span>269f</span></article>
+      </div>
+
+      <div class="grid">
+        <section>
+          <h2>Illustrated machine</h2>
+          <div class="card">
+            <table>
+              <tr><th>Stage</th><th>Drawing</th></tr>
+              <tr><td>Motor</td><td>Frameless outrunner, 18 slots, 20 poles, 10 pole pairs</td></tr>
+              <tr><td>Sun</td><td>18 teeth, pitch radius 56</td></tr>
+              <tr><td>Planet</td><td>36 teeth, three planets, needle bore</td></tr>
+              <tr><td>Ring</td><td>90 teeth, fixed, pitch radius 280</td></tr>
+              <tr><td>Ratio</td><td>(18+90)/18 = 6.00. Assembly divides by 3.</td></tr>
+              <tr><td>Sensor</td><td>8 spoke gauges, 4 drawn in the bridge</td></tr>
+              <tr><td>Stream</td><td>Counter steps at 1 kHz. The picture is decimated.</td></tr>
+            </table>
+          </div>
+          <h2>What is exaggerated</h2>
+          <div class="card">
+            <p>Rotor speed is 0.55 mechanical turns across the motor plate. A real high-pole machine would be a blur.</p>
+            <p>Spoke sag is drawn in pixels and labeled as screen sag. It is not a microstrain.</p>
+            <p>Tooth flanks are trapezoids. The pitch circles and the 6:1 speed ratio are the part that is exact.</p>
+            <p>Angle traces in the limb plate are the pose on screen. Violet torque is a schematic pulse, not a load cell.</p>
+          </div>
+        </section>
+        <section>
+          <h2>Palette jobs</h2>
+          <div class="swatches">
+            <div class="swatch"><i style="background:#171A21"></i><span class="meta">Housing #171A21</span></div>
+            <div class="swatch"><i style="background:#383E4A"></i><span class="meta">Titanium #383E4A</span></div>
+            <div class="swatch"><i style="background:#00F5D4"></i><span class="meta">Flux teal windings</span></div>
+            <div class="swatch"><i style="background:#FF6B35"></i><span class="meta">Orange mesh</span></div>
+            <div class="swatch"><i style="background:#7928CA"></i><span class="meta">Violet gauges</span></div>
+          </div>
+          <h2>Repurpose</h2>
+          <div class="card">
+            <p>The same five-plate stack (cover, motor section, reduction, sensor, limb) drops onto an elbow, a gripper, or a robot arm joint by swapping the link pose and the gear constants. The check script is the gate: ratio, clearance, and foot contact have to stay true.</p>
+          </div>
+        </section>
+      </div>
+
+      <h2>What this is</h2>
+      <div class="points">
+        <article class="point"><strong>1. Product</strong>A 34-second mechanism film of a quasi-direct-drive humanoid knee.</article>
+        <article class="point"><strong>2. Who</strong>Robotics engineers, technical buyers, and anyone reading an actuator instead of a render.</article>
+        <article class="point"><strong>3. Why it wins</strong>The gear ratio, phase count, and foot contact are the same numbers the drawing uses.</article>
+        <article class="point"><strong>4. Structure</strong>Five plates in actuator order: cover, outrunner, planetary, flexure, limb.</article>
+        <article class="point"><strong>5. Discovery</strong>GitHub repository and GitHub Pages player. Shot list is this page.</article>
+        <article class="point"><strong>6. Engage</strong>Play, scrub, or jump a plate. Reduced-motion viewers get a still until they hit play.</article>
+        <article class="point"><strong>7. Convert</strong>The action is to watch the heel strike. There is no email form.</article>
+        <article class="point"><strong>8. Money</strong>Portfolio and a reusable plate system. No price is invented here.</article>
+        <article class="point"><strong>9. Launch</strong>Static Vite build to GitHub Pages. No secrets, no accounts, no analytics.</article>
+        <article class="point"><strong>10. After launch</strong>Swap tooth counts or the limb pose, then re-run the kinematics check before calling the ratio true.</article>
+      </div>
+    </main>
+    <footer>
+      Hard cuts at frames 151, 301, 511, and 751. Frame 1019 is the last frame. Duration is 34.00s. This sheet is the themed index. The film plate stays on the actuator palette.
+    </footer>
+    <script>
+      const themes = ["bento", "cosmic", "swiss", "aqua", "brutal", "steel", "parchment"];
+      const root = document.body;
+      const box = document.getElementById("controls");
+      const savedTheme = localStorage.getItem("jig-brief-theme") || "cosmic";
+      const savedMode = localStorage.getItem("jig-brief-mode") || "dark";
+      const apply = (theme, mode) => {
+        root.dataset.theme = theme;
+        root.dataset.mode = mode;
+        localStorage.setItem("jig-brief-theme", theme);
+        localStorage.setItem("jig-brief-mode", mode);
+        for (const btn of box.querySelectorAll("button")) btn.classList.toggle("on", btn.dataset.value === theme || btn.dataset.value === mode);
+      };
+      for (const theme of themes) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.value = theme;
+        btn.textContent = theme;
+        btn.addEventListener("click", () => apply(theme, root.dataset.mode));
+        box.appendChild(btn);
+      }
+      for (const mode of ["dark", "light"]) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.value = mode;
+        btn.textContent = mode;
+        btn.addEventListener("click", () => apply(root.dataset.theme, mode));
+        box.appendChild(btn);
+      }
+      apply(themes.includes(savedTheme) ? savedTheme : "cosmic", savedMode === "light" ? "light" : "dark");
+    </script>
+  </body>
+</html>
